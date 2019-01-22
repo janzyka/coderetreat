@@ -6,38 +6,37 @@ package com.merck.fun.life;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import org.junit.Test;
 
 // Refer to: https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 public class LifeBoardTest {
 
-    @Test
-    public void beehiveIsSelfParentConfiguration() throws Exception {
-        InputStream is = getClass().getResourceAsStream("/beehive.txt");
+    public static final boolean[][] BEEHIVE = {
+            {false, true, true, false},
+            {true, false, false, true},
+            {false,true,true,false}
+    };
 
-        LifeBoard board = LifeBoard.fromReader(new InputStreamReader(is));
+    @Test
+    public void beehiveIsStableConfiguration() throws Exception {
+
+        LifeBoard board = fromResource("/beehive.txt");
 
         System.out.println(board);
 
         board.nextState();
 
-        assertTrue(board.isAlive(10, 2));
-        assertTrue(board.isAlive(11, 2));
-
-        assertTrue(board.isAlive(10, 4));
-        assertTrue(board.isAlive(11, 4));
-
-        assertTrue(board.isAlive(9, 3));
-        assertTrue(board.isAlive(12, 3));
+        assertTrue(board.contains(10, 2, BEEHIVE));
     }
 
     @Test
     public void spaceshipMovesInLeftBottomDirectionAfter4Iterations() throws Exception {
-        InputStream is = getClass().getResourceAsStream("/spaceship.txt");
 
-        LifeBoard board = LifeBoard.fromReader(new InputStreamReader(is));
+        LifeBoard board = fromResource("/spaceship.txt");
 
         System.out.println(board);
 
@@ -46,4 +45,9 @@ public class LifeBoardTest {
         // should have moved
     }
 
+    private LifeBoard fromResource(String resource) throws IOException  {
+        try (Reader reader = new InputStreamReader(getClass().getResourceAsStream(resource))) {
+            return LifeBoard.fromReader(reader);
+        }
+    }
 }

@@ -63,6 +63,23 @@ public class LifeBoard {
         return this;
     }
 
+    /**
+     * Tells whether board contains given shape on given coordinates
+     * @param x - X coordinate
+     * @param y - Y coordinate
+     * @param shape - shape to test
+     * @return true if contains sub-shape, false otherwise
+     */
+    public boolean contains(int x, int y, boolean[][] shape) {
+        //TODO:
+        return false;
+    }
+
+    /**
+     * Moves board by N iterations
+     * @param iterations number of iterations to make
+     * @return
+     */
     public LifeBoard nextState(int iterations) {
 
         for (int i=0; i < iterations; i++) {
